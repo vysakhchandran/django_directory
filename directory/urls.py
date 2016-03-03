@@ -16,8 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+from app1.api import DirectoryResource
+
+directory_resource = DirectoryResource()
 
 urlpatterns = [
     url(r'^app1/', include('app1.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include(directory_resource.urls)),
 ]

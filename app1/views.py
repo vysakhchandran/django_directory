@@ -4,6 +4,7 @@ from .models import Directory
 from .forms import DirectoryForm
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import Q
 
 
 def IndexView(request):
@@ -14,7 +15,10 @@ def IndexView(request):
 
     query= request.GET.get("q")
     if query:
-    	queryset=queryset.filter(name__icontains=query)
+    	queryset=queryset.filter(
+    		Q(name__icontains=query) | 
+    	    Q(number__icontains=query)
+    	    )
 
     context= {
     	"objects_list": queryset,
