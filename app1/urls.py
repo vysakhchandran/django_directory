@@ -8,4 +8,6 @@ app_name = 'app1'
 urlpatterns = [
     url(r'^$', views.IndexView, name='index'),
     url(r'^add/', views.Directory_Add, name='add'),
+    url(r'^(?P<slug>[-\w]+)/edit', views.Directory_Detail, name='edit'),
+
 ]

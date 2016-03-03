@@ -5,6 +5,7 @@ from .forms import DirectoryForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 def IndexView(request):
@@ -36,6 +37,21 @@ def Directory_Add(request):
 	else:
 		form = DirectoryForm()
 	return redirect("app1:index")
+
+def Directory_Detail(request,slug=None):
+	instance=get_object_or_404(Directory,slug=slug)
+	form=DirectoryForm(request.POST or None, instance=instance)
+	if form.is_valid():
+		instance=form.save(commit=False)
+		instance.save()
+		messages.success(request,"Record Updated!")
+		return redirect("app1:index")
+
+	context= {
+	"instance":instance,
+	"form":form,
+	}
+	return render(request,"app1/Directory_Detail.html",context)
 
 
 # Create your views here.
