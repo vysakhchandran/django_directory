@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response
 
 
 def IndexView(request):
@@ -27,6 +28,19 @@ def IndexView(request):
     }
     return render(request,"app1/index.html",context)
 
+def submit_search(request):
+	numbers = []
+	search_text = "" 
+	if(request.method == "GET"):
+		search_text = request.GET.get("number_search_text", "")
+	number_results = []
+	if(search_text != ""):
+		number_results = Directory.objects.filter(Q(name__icontains=search_text) | Q(number__icontains=search_text))
+	context= {
+    	"objects_list": number_results,
+    	"search_text": search_text
+    }
+	return  render_to_response("app1/search_results__html_snippet.html",context)
 
 def Directory_Add(request):
 	form=DirectoryForm(request.POST or None)

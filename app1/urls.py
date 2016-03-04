@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^$', views.IndexView, name='index'),
     url(r'^add/', views.Directory_Add, name='add'),
     url(r'^(?P<slug>[-\w]+)/edit', views.Directory_Detail, name='edit'),
+    url(r'^search/$', views.submit_search, name='number_search'),
 
 ]
