@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+
+
+<table class="table table-striped">
+    <thead>
+    	<tr>
+    		<th>#ID</th>
+
+    		<th>#Name</th>
+    		<th>#Number</th>
+    	</tr>
+    </thead>
+    <tbody>
+  
+
+{% if objects_list %}
+
+    
+    {% for object in objects_list %}
+    <tr>
+    
+     <td> <a href="{{ object.get_absolute_url }}"> {{ object.id }} </td> </a>
+     <td>  {{ object.name }} </td>
+     <td>	{{object.number}} </td>
+ </tr>
+    {% endfor %}
+    
+    </tbody>
+    </table>
+</div>
+
+{% else %}
+    <p>No Names and number available.</p>
+{% endif %}
