@@ -1,12 +1,40 @@
-{% extends 'app1/base.html' %}
-{% block content %}
 
 
 
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+  	 <a class="navbar-brand" href="#">Directory</a>
+   <button type="button" class="btn btn-default navbar-btn">Sign in</button>
+  </div>
+</nav>
+<br>
+<br>
+<br>
+
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+
+
+
+{# Display a form #}
 <form action="{% url 'app1:add' %}" method="post">
    {% csrf_token %}
-   {{ form }}
-    <input type="submit" value="Add" class="btn btn-primary">
+ {% bootstrap_form form layout='inline' %}
+ {% bootstrap_form_errors form layout='inline' %}
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "plus" %} Submit
+    </button>
+  {% endbuttons %}
 </form>
 
 
@@ -64,4 +92,4 @@
 {% else %}
     <p>No Names and number available.</p>
 {% endif %}
-{% endblock %}
+
