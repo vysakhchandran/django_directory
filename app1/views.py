@@ -13,6 +13,15 @@ def IndexView(request):
     queryset=Directory.objects.all()
     template_name = 'app1/index.html'
     form=DirectoryForm()
+    if request.method == "POST":
+    	form=DirectoryForm(request.POST or None)
+    	if form.is_valid():
+		    instance=form.save(commit=False)
+		    instance.save()
+		    messages.success(request,"Record successfully added!")
+		    form=DirectoryForm()
+
+
 
     query= request.GET.get("q")
     if query:
@@ -20,10 +29,11 @@ def IndexView(request):
     		Q(name__icontains=query) | 
     	    Q(number__icontains=query)
     	    )
-
+    
     context= {
     	"objects_list": queryset,
-    	"form": form
+    	"form": form,
+    	"success": True
     }
     return render(request,"app1/index.html",context)
 
@@ -35,8 +45,11 @@ def Directory_Add(request):
 		instance.save()
 		messages.success(request,"Record successfully added!")
 	else:
-		form = DirectoryForm()
-	return redirect("app1:index")
+		
+		context= { 
+		"form": form
+		}
+	return render(request,"app1/index.html",context)
 
 def Directory_Detail(request,slug=None):
 	instance=get_object_or_404(Directory,slug=slug)

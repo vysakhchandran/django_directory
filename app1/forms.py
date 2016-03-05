@@ -11,7 +11,7 @@ class DirectoryForm(forms.ModelForm):
         data = self.cleaned_data['number']
         print data
         if len(data) <10:
-            raise forms.ValidationError("Invalid Phone number ")
+            raise forms.ValidationError("Invalid phone number ")
 
         # Always return the cleaned data, whether you have changed it or
         # not.
