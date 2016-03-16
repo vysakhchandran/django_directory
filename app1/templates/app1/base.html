@@ -24,7 +24,16 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script> -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link type="text/css" href="{% static 'app1/table.css' %}" rel="stylesheet">
+
+
+
     <!-- <script type='text/javascript' src="{% static 'app1/number_ajax_main.js' %}"></script> --> 
   
     <script>
@@ -44,6 +53,7 @@
           },
           dataType: 'html',
           success: processServerResponse
+
         };
         $.ajax(config);
      });
@@ -52,9 +62,41 @@
       //alert("sersverResponse_data='" + sersverResponse_data + "', textStatus_ignored='" + textStatus_ignored + "', jqXHR_ignored='" + jqXHR_ignored + "'");
       //$('#number_search_results').load(sersverResponse_data);
       $('#number_search_results').html(sersverResponse_data);
+      //$('#success').append('<li class="alert alert-success">Record successfully added!</li>');
+      $('#addbutton').trigger("reset")
     };
+
+    $("#addbutton").submit(function(e){
+        //alert("ajax add")
+        e.preventDefault();
+         dataString = $("#addbutton").serialize();
+
+         $.ajax({
+           type: $(this).attr('method'),
+           url: $(this).attr('action'),
+           data: dataString,
+
+           dataType: "html",
+           success: processServerResponse
+
+          });
+    });
+
+      $("#number_search_text").autocomplete({
+    source: "api/get_names/",
+    minLength: 2,
+    select: function(event,ui) {
+      if(ui.item){
+        $('#number_search_text').val(ui.item.value);
+      }
+      $('.ajaxform').submit();
+    }
+  });
+
+
  });
  </script>
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -86,17 +128,17 @@
       </div>
 
     </nav>
-    <div class="container">
-    {% if messages %}
+<!--     <div class="container">
+   {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
-{% endif %}
-</div>
-    
-    <div class="container">
+{% endif %} 
+</div> -->
+
+    <div class="container" id="maindiv">
       <br>
  {% block content %}{% endblock content %}
       <div class="starter-template">
@@ -107,7 +149,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
